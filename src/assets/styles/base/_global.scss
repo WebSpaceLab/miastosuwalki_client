@@ -1,0 +1,26 @@
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  @apply bg-background-light dark:bg-background-dark;
+}
+
+html {
+  font-size: 16px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.scrollbar {
+  @apply scrollbar scrollbar-left scrollbar-blue-600 scrollbar-rounded scrollbar-w-2px scrollbar-radius-2 scrollbar-track-radius-2 scrollbar-thumb-radius-2;
+}
