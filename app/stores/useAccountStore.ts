@@ -1,6 +1,5 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useAuthStore } from './useAuthStore'
-import { IUser } from '../../types/IUser'
+import type { IUser } from '../../types/IUser'
 import axios from '../plugins/axios'
 const $axios = axios().provide.axios
 

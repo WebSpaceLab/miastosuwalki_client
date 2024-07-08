@@ -1,11 +1,9 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 import { useFlashStore } from './useFlashStore'
 
 export const useFeatureStore = defineStore('feature', {
     state: () => {
         return {
-            data : [],
+            data: [],
 
             pagination: {
                 total: null,
@@ -39,14 +37,14 @@ export const useFeatureStore = defineStore('feature', {
                         page: page
                     }
                 }) as any
-                
-                if(data.value) {
+
+                if (data.value) {
                     this.data = data.value.data.features
-                    
+
                     this.pagination.total = data.value.data.pagination.total
                     this.pagination.current_page = data.value.data.pagination.current_page
                     this.pagination.per_page = data.value.data.pagination.per_page
-                    
+
                     this.status = data.value.data.status
                     this.months = data.value.data.months
                     this.queryParams = data.value.data.queryParams
@@ -62,84 +60,84 @@ export const useFeatureStore = defineStore('feature', {
             this.isLoading = true
             this.errors = null
 
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/feature`, {
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/feature`, {
                 method: 'POST',
                 body: form
             }) as any
 
-            if(error.value) {
-                if(error.value.data) {
+            if (error.value) {
+                if (error.value.data) {
                     if (error.value.data.errors) {
                         this.errors = error.value.data.errors
                     }
-                    
-                    if(error.value.data.flash) {
+
+                    if (error.value.data.flash) {
                         useFlashStore().error(error.value.data.flash.message)
                     }
                 }
-                
+
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
 
             this.isLoading = pending.value
         },
-        
+
         async update(aboutId: number, form: object) {
             this.isLoading = true
             this.errors = null
-            
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/feature/${aboutId}`, {
+
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/feature/${aboutId}`, {
                 method: 'PATCH',
                 body: form
             }) as any
 
-            if(error.value) {
-                if(error.value.data) {
+            if (error.value) {
+                if (error.value.data) {
                     if (error.value.data.errors) {
                         this.errors = error.value.data.errors
                     }
-                    
-                    if(error.value.data.flash) {
+
+                    if (error.value.data.flash) {
                         useFlashStore().error(error.value.data.flash.message)
                     }
                 }
-                
+
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
 
             this.isLoading = pending.value
         },
-        
+
         async destroy(featureId: number) {
             this.isLoading = true
             this.errors = null
 
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/feature/${featureId}`, {
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/feature/${featureId}`, {
                 method: 'DELETE'
             }) as any
-            
-            if(error.value) {
-                if(error.value.data) {  
+
+            if (error.value) {
+                if (error.value.data) {
                     if (error?.value.data.response.status === 422) {
                         this.errors = error.value.data.response.file[0]
                     }
-                    
-                    if(error.value.data.flash) {
+
+                    if (error.value.data.flash) {
                         useFlashStore().error(error.value.data.flash.message)
                     }
                 }
-                
+
                 console.error(error)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
@@ -148,7 +146,7 @@ export const useFeatureStore = defineStore('feature', {
         }
     },
 })
-  
-if(import.meta.hot) {
+
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useFeatureStore, import.meta.hot))
 }

@@ -1,10 +1,10 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-import { ICredentials, IRegistrationInfo } from '../../types/IAuth'
-import { IUser } from '../../types/IUser'
 import { useFlashStore } from './useFlashStore'
 import { useNavbarStore } from './useNavbarStore'
 import { useAccountStore } from './useAccountStore'
-import { IApiToken } from '../../types/IApiToken'
+
+import type { ICredentials, IRegistrationInfo } from '../../types/IAuth'
+import type { IUser } from '../../types/IUser'
+import type { IApiToken } from '../../types/IApiToken'
 
 export const useAuthStore = defineStore('auth', {
     state: () => {

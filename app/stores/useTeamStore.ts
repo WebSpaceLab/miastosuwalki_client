@@ -1,11 +1,9 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 import { useFlashStore } from './useFlashStore'
 
 export const useTeamStore = defineStore('team', {
     state: () => {
         return {
-            data : [],
+            data: [],
 
             activeTeam: [],
 
@@ -29,7 +27,7 @@ export const useTeamStore = defineStore('team', {
             this.isLoading = true
 
             try {
-                let { data,  status } = await useFetchApi(`/api/admin/team`, {
+                let { data, status } = await useFetchApi(`/api/admin/team`, {
                     method: 'GET',
                     params: {
                         term: query.term,
@@ -41,14 +39,14 @@ export const useTeamStore = defineStore('team', {
                         page: page
                     }
                 }) as any
-                
-                if(data.value && status.value === 'success') {
+
+                if (data.value && status.value === 'success') {
                     this.data = data.value.data.team
-        
+
                     this.pagination.total = data.value.data.pagination.total
                     this.pagination.current_page = data.value.data.pagination.current_page
                     this.pagination.per_page = data.value.data.pagination.per_page
-       
+
                     this.status = data.value.data.status
                     this.months = data.value.data.months
                     this.queryParams = data.value.data.queryParams
@@ -64,54 +62,54 @@ export const useTeamStore = defineStore('team', {
             this.isLoading = true
             this.errors = null
 
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/team`, {
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/team`, {
                 method: 'POST',
                 body: form
             }) as any
 
             this.isLoading = pending.value
 
-            if(error.value) {
+            if (error.value) {
                 if (error.value.data.errors) {
                     this.errors = error.value.data.errors
                 }
 
-                if(error.value.data.flash) {
+                if (error.value.data.flash) {
                     useFlashStore().error(error.value.data.flash.message)
                 }
                 return error.value
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
 
                     return data.value
                 }
             }
         },
-        
+
         async update(teamId: number, form: object) {
             this.isLoading = true
             this.errors = null
-            
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/team/${teamId}`, {
+
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/team/${teamId}`, {
                 method: 'PATCH',
                 body: form
             }) as any
 
             this.isLoading = pending.value
 
-            if(error.value) {
+            if (error.value) {
                 if (error.value.data.errors) {
                     this.errors = error.value.data.errors
                 }
 
-                if(error.value.data.flash) {
+                if (error.value.data.flash) {
                     useFlashStore().error(error.value.data.flash.message)
                 }
 
                 return error.value
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
 
                     return data.value
@@ -123,21 +121,21 @@ export const useTeamStore = defineStore('team', {
             this.isLoading = true
             this.errors = null
 
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/team/${teamId}`, {
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/team/${teamId}`, {
                 method: 'DELETE'
             }) as any
 
             this.isLoading = pending.value
 
-            if(error.value) {
+            if (error.value) {
                 console.error(error.value)
                 if (error?.value.data.response.status === 422) {
                     this.errors = error.value.data.response.file[0]
                 }
-                
+
                 useFlashStore().error(error.value.data.flash.message)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
 
                     return data.value
@@ -148,6 +146,6 @@ export const useTeamStore = defineStore('team', {
 })
 
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useTeamStore, import.meta.hot))
 }

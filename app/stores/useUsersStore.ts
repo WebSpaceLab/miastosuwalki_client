@@ -1,7 +1,6 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-import axios from '../plugins/axios'
 import { useAuthStore } from './useAuthStore'
 import { useFlashStore } from './useFlashStore'
+import axios from '../plugins/axios'
 
 const $axios = axios().provide.axios
 

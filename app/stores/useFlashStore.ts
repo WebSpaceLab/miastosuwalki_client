@@ -1,4 +1,3 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
 import { v4 as uuid } from "uuid";
 
 const defaultOptions = {
@@ -11,16 +10,17 @@ const defaultOptions = {
 
 export const useFlashStore = defineStore('flash', {
   state: () => {
-    return { items: [] as any
+    return {
+      items: [] as any
     }
   },
- 
+
   actions: {
     add(message: any, style: string, options: any = {}) {
       options = { ...defaultOptions, style, ...options };
 
-      const id: any = uuid() 
-      
+      const id: any = uuid()
+
       this.items.unshift({
         id,
         message,

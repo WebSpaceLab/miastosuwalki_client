@@ -1,4 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useFlashStore } from './useFlashStore'
 
 export const useMetaTagsStore = defineStore('metaTags', {
@@ -8,44 +7,44 @@ export const useMetaTagsStore = defineStore('metaTags', {
         errors: null as object | null,
         buffer: null as any
     }),
-    
+
     actions: {
         async get() {
             const { data, error } = await useFetchApi('/api/meta-tags', {
                 method: 'GET',
-            }) as any 
+            }) as any
 
-            if(error.value) {
+            if (error.value) {
                 useFlashStore().error('Wystąpił błąd podczas ładowania ustawień strony.')
             } else {
-                if(data.value) {
+                if (data.value) {
                     this.data = data.value.data.metaTags
                 }
             }
         },
 
         async create(form: Object) {
-            const {data, error, status} = await useFetchApi('/api/admin/meta-tags', {
+            const { data, error, status } = await useFetchApi('/api/admin/meta-tags', {
                 method: 'POST',
                 body: form,
-            }) as any 
+            }) as any
 
-            if(error.value) {
+            if (error.value) {
                 this.errors = error.value.data.errors
 
-                if(error.value.data.errors.flash) {
+                if (error.value.data.errors.flash) {
                     useFlashStore().error(error.value.data.errors.flash.message)
                 }
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
-            
+
             this.get()
             this.errors = null
         },
-        
+
         async update(id: number, form: object) {
             this.isLoading = true
             this.buffer = {
@@ -53,21 +52,21 @@ export const useMetaTagsStore = defineStore('metaTags', {
                 type: 'update'
             }
 
-            const {data, error, status} = await useFetchApi('/api/admin/meta-tags/' + id, {
+            const { data, error, status } = await useFetchApi('/api/admin/meta-tags/' + id, {
                 method: 'PATCH',
                 body: form,
-            }) as any 
+            }) as any
 
-            if(error.value) {
+            if (error.value) {
                 this.errors = error.value.data.errors
 
                 useFlashStore().error('Błąd')
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
-            
+
             this.get()
             this.isLoading = false
             this.buffer = null
@@ -82,16 +81,16 @@ export const useMetaTagsStore = defineStore('metaTags', {
             }
 
             if (confirm(`Czy na pewno chcesz usunąć ten meta tag?`)) {
-                const {data, error, status} = await useFetchApi(`/api/admin/meta-tags/` + id, {
+                const { data, error, status } = await useFetchApi(`/api/admin/meta-tags/` + id, {
                     method: 'DELETE',
                 }) as any
-    
-                if(error.value) {
+
+                if (error.value) {
                     console.error(error.value)
-    
+
                     useFlashStore().error('Błąd. Nie udało się usunąć meta tagu.')
                 } else {
-                    if(data.value && status.value === 'success') {
+                    if (data.value && status.value === 'success') {
                         useFlashStore().success(data.value.flash.message)
                     }
                 }
@@ -105,6 +104,6 @@ export const useMetaTagsStore = defineStore('metaTags', {
     }
 })
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useMetaTagsStore, import.meta.hot))
 }

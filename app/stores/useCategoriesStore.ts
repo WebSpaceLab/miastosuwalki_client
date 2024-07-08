@@ -1,12 +1,10 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 import { useFlashStore } from './useFlashStore'
 
 export const useCategoriesStore = defineStore('categories', {
     state: () => {
         return {
-            data : [],
-            
+            data: [],
+
             activeCategories: [],
 
             pagination: {
@@ -32,21 +30,21 @@ export const useCategoriesStore = defineStore('categories', {
                 let { data } = await useFetchApi('/api/categories', {
                     method: 'GET'
                 }) as any
-                
-                if(data.value) {
+
+                if (data.value) {
                     this.activeCategories = data.value.data.categories
                 }
             } catch (error) {
                 console.error(error)
-                
+
             } finally {
                 this.isLoading = false
             }
         },
 
-        async get( query: any, perPage: number, page: number) {
+        async get(query: any, perPage: number, page: number) {
             this.isLoading = true
-            
+
             try {
                 let { data } = await useFetchApi(`/api/admin/categories`, {
                     method: 'GET',
@@ -60,77 +58,77 @@ export const useCategoriesStore = defineStore('categories', {
                         page: page
                     }
                 }) as any
-                
-                if(data.value) {
+
+                if (data.value) {
                     this.data = data.value.data.categories
-        
+
                     this.pagination.total = data.value.data.pagination.total
                     this.pagination.current_page = data.value.data.pagination.current_page
                     this.pagination.per_page = data.value.data.pagination.per_page
-                    
+
                     this.status = data.value.data.status
                     this.months = data.value.data.months
                     this.queryParams = data.value.data.queryParams
                 }
             } catch (error) {
                 console.error(error)
-                
+
             } finally {
-                this.isLoading = false   
+                this.isLoading = false
             }
         },
-        
+
         async create(form: object) {
             this.isLoading = true
             this.errors = null
 
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/categories`, {
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/categories`, {
                 method: 'POST',
                 body: form
             }) as any
 
-            
-            if(error.value) {
+
+            if (error.value) {
                 if (error.value.data.errors) {
                     this.errors = error.value.data.errors
                 }
-                
-                if(error.value.data.flash) {
+
+                if (error.value.data.flash) {
                     useFlashStore().error(error.value.data.flash.message)
                 }
-                
+
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
 
             this.isLoading = pending.value
         },
-        
-        async update(id: number,form: object) {
+
+        async update(id: number, form: object) {
             this.isLoading = true
             this.errors = null
-            
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/categories/${id}`, {
+
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/categories/${id}`, {
                 method: 'PATCH',
                 body: form
             }) as any
 
-            
-            if(error.value) {
+
+            if (error.value) {
                 if (error.value.data.errors) {
                     this.errors = error.value.data.errors
                 }
-                
-                if(error.value.data.flash) {
+
+                if (error.value.data.flash) {
                     useFlashStore().error(error.value.data.flash.message)
                 }
-                
+
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
@@ -142,24 +140,24 @@ export const useCategoriesStore = defineStore('categories', {
             this.isLoading = true
             this.errors = null
 
-            let {data, pending, status, error } = await useFetchApi(`/api/admin/categories/${id}`, {
+            let { data, pending, status, error } = await useFetchApi(`/api/admin/categories/${id}`, {
                 method: 'DELETE'
             }) as any
 
-            
-            if(error.value) {
+
+            if (error.value) {
                 console.error(error.value)
                 if (error?.value.data.response.status === 422) {
                     this.errors = error.value.data.response.file[0]
                 }
-                
+
                 useFlashStore().error(error.value.data.flash.message)
 
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
-                    
+
                     return data.value
                 }
             }
@@ -169,6 +167,6 @@ export const useCategoriesStore = defineStore('categories', {
     },
 })
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useCategoriesStore, import.meta.hot))
 }

@@ -1,5 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 import { useFlashStore } from './useFlashStore'
 import { useHomepageStore } from './useHomepageStore'
 import { useCookie } from '#imports'

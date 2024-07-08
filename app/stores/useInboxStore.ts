@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia'
 import { useFlashStore } from './useFlashStore'
 
 export const useInboxStore = defineStore('inbox', {

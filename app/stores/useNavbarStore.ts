@@ -1,9 +1,8 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-import {useAuthStore}from './useAuthStore'
+import { useAuthStore } from './useAuthStore'
 
 export const useNavbarStore = defineStore('navbar', {
     state: () => {
-        return { 
+        return {
             isNavbarDropdown: false,
             isZoom: false,
             isShowSm: false,
@@ -19,7 +18,7 @@ export const useNavbarStore = defineStore('navbar', {
         activate() {
             this.isNavbarDropdown = true
         },
-        
+
         close() {
             this.isNavbarDropdown = false
         },
@@ -47,15 +46,15 @@ export const useNavbarStore = defineStore('navbar', {
         switchRegister(event = false) {
             this.isShowRegister = event
 
-            if(!event) {
+            if (!event) {
                 useAuthStore().reset()
             }
         },
 
         switchForgotPassword(event = false) {
             this.isShowForgotPassword = event
-            
-            if(!event) {
+
+            if (!event) {
                 useAuthStore().reset()
             }
         },
@@ -71,7 +70,7 @@ export const useNavbarStore = defineStore('navbar', {
             this.switchForgotPassword(false)
             this.switchRegister(false)
         },
-        
+
         showForgotPassword() {
             this.switchLogin(false)
             this.switchForgotPassword(true)
@@ -84,6 +83,6 @@ export const useNavbarStore = defineStore('navbar', {
     }
 })
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useNavbarStore, import.meta.hot))
 }

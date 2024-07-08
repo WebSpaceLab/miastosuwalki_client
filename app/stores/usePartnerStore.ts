@@ -1,5 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 import { useFlashStore } from './useFlashStore'
 
 export const usePartnerStore = defineStore('partner', {

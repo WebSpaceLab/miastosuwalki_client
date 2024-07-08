@@ -1,5 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 export const useHomepageStore = defineStore('homepage', {
     state: () => {
         return {

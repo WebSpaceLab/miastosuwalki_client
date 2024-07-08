@@ -1,11 +1,9 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-
 import { useFlashStore } from './useFlashStore'
 
 export const useHeroStore = defineStore('hero', {
     state: () => {
         return {
-            data : [],
+            data: [],
 
             pagination: {
                 total: null,
@@ -38,18 +36,18 @@ export const useHeroStore = defineStore('hero', {
                     }
                 }) as any
 
-                if(data.value) {
+                if (data.value) {
                     this.data = data.value.data.hero
-                    
+
                     this.pagination.total = data.value.data.pagination.total
                     this.pagination.current_page = data.value.data.pagination.current_page
                     this.pagination.per_page = data.value.data.pagination.per_page
-                    
+
                     this.status = data.value.data.status
                     this.months = data.value.data.months
                     this.queryParams = data.value.data.queryParams
                 }
-                
+
             } catch (error) {
                 console.error(error)
             } finally {
@@ -61,55 +59,55 @@ export const useHeroStore = defineStore('hero', {
             this.isLoading = true
             this.errors = null
 
-            let {data,  status, error } = await useFetchApi(`/api/admin/hero`, {
+            let { data, status, error } = await useFetchApi(`/api/admin/hero`, {
                 method: 'POST',
                 body: form
             }) as any
 
-            
-            if(error.value) {
-                if(error.value.data) {
+
+            if (error.value) {
+                if (error.value.data) {
                     if (error.value.data.errors) {
                         this.errors = error.value.data.errors
                     }
-                    
-                    if(error.value.data.flash) {
+
+                    if (error.value.data.flash) {
                         useFlashStore().error(error.value.data.flash.message)
                     }
                 }
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
 
             this.isLoading = false
         },
-        
+
         async update(heroId: number, form: object) {
             this.isLoading = true
             this.errors = null
-            
-            let {data, status, error } = await useFetchApi(`/api/admin/hero/${heroId}`, {
+
+            let { data, status, error } = await useFetchApi(`/api/admin/hero/${heroId}`, {
                 method: 'PATCH',
                 body: form
             }) as any
 
-            
-            if(error.value) {
-                if(error.value.data) {
+
+            if (error.value) {
+                if (error.value.data) {
                     if (error.value.data.errors) {
                         this.errors = error.value.data.errors
                     }
-                    
-                    if(error.value.data.flash) {
+
+                    if (error.value.data.flash) {
                         useFlashStore().error(error.value.data.flash.message)
                     }
                 }
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
@@ -121,21 +119,21 @@ export const useHeroStore = defineStore('hero', {
             this.isLoading = true
             this.errors = null
 
-            let {data, status, error } = await useFetchApi(`/api/admin/hero/${heroId}`, {
+            let { data, status, error } = await useFetchApi(`/api/admin/hero/${heroId}`, {
                 method: 'DELETE'
             }) as any
 
-            if(error.value) {
-                if(error.value.data) {
+            if (error.value) {
+                if (error.value.data) {
                     if (error?.value.data.response.status === 422) {
                         this.errors = error.value.data.response.file[0]
                     }
-                    
+
                     useFlashStore().error(error.value.data.flash.message)
                 }
                 console.error(error.value)
             } else {
-                if(data.value && status.value === 'success') {
+                if (data.value && status.value === 'success') {
                     useFlashStore().success(data.value.flash.message)
                 }
             }
@@ -145,6 +143,6 @@ export const useHeroStore = defineStore('hero', {
     },
 })
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useHeroStore, import.meta.hot))
 }

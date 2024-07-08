@@ -1,9 +1,4 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
-// import axios from '../plugins/axios'
 import { useFlashStore } from './useFlashStore'
-import { useAuthStore } from './useAuthStore'
-
-// const $axios = axios().provide.axios
 
 export const useAdvertisementStore = defineStore('advertisement', {
     state: () => {
