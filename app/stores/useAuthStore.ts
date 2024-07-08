@@ -1,10 +1,10 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { ICredentials, IRegistrationInfo } from '../types/IAuth'
-import { IUser } from '../types/IUser'
+import { ICredentials, IRegistrationInfo } from '../../types/IAuth'
+import { IUser } from '../../types/IUser'
 import { useFlashStore } from './useFlashStore'
 import { useNavbarStore } from './useNavbarStore'
 import { useAccountStore } from './useAccountStore'
-import { IApiToken } from '../types/IApiToken'
+import { IApiToken } from '../../types/IApiToken'
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
@@ -18,18 +18,18 @@ export const useAuthStore = defineStore('auth', {
                 avatarUrl: '',
                 bio: '',
                 roles: [],
-            
+
                 articles: [],
                 comments: [],
-                
+
                 createdAtAgo: '',
                 updatedAtAgo: ''
             },
             isLoggedIn: false,
             isLoading: false,
             errors: null as object | null,
-            response: null as object |null,
-            status: null as string | null, 
+            response: null as object | null,
+            status: null as string | null,
             token: null as string | null,
             iri: null as string | null,
             roles: [],
@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', {
             isAuthorization: false
         }
     },
-    
+
     actions: {
         async register(info: IRegistrationInfo) {
             this.isLoading = true
@@ -49,71 +49,71 @@ export const useAuthStore = defineStore('auth', {
                 body: info,
             })
 
-            if(error.value) {
+            if (error.value) {
                 this.errors = error.value.data.errors
             } else {
-                if(status.value === 'success') {
+                if (status.value === 'success') {
                     const statusText = `Rejestracja przebiegła pomyślnie. Potwierdź w mailu weryfikacyjnym `
                     useFlashStore().success(statusText)
-             
+
                     this.response = {
                         status: statusText
                     }
                 }
             }
-            
+
             this.status = status.value
             this.isLoading = false
         },
-        
+
         async login(credentials: ICredentials) {
             this.isLoading = true
             this.status = null
             this.response = null
-            
-            const {error, status, data } = await useFetchApi('/auth/login', {
+
+            const { error, status, data } = await useFetchApi('/auth/login', {
                 method: 'POST',
                 body: credentials,
             }) as IApiToken | any
-            
-            if(error.value) {
+
+            if (error.value) {
                 this.errors = error.value.data.error
             } else {
-                if(status.value === 'success' && data.value ) {
+                if (status.value === 'success' && data.value) {
                     // const token = useCookie('Api-Token')
                     // const iri = useCookie('Iri')
 
                     // token.value =  data.value.apiToken
                     // iri.value = data.value.iri
 
-                    if(data.value.data.apiToken && data.value.data.iri) {
+                    if (data.value.data.apiToken && data.value.data.iri) {
                         this.token = data.value.data.apiToken
                         this.iri = data.value.data.iri
                         this.getUser()
                         this.checkIsLoggedIn()
                         useAccountStore().init(this.user as IUser | any)
-                        
+
                         navigateTo('/dashboard')
                         useFlashStore().success(data.value.flash?.message)
                         useNavbarStore().switchLogin(false)
                     }
                 }
             }
-            
+
             this.status = status.value
             this.isLoading = false
         },
-    
-        async getUser() { 
+
+        async getUser() {
             this.status = null
 
-            if(this.iri) {
-                const { data, status, error } = await useFetchApi(this.iri) as IUser | any 
+            if (this.iri) {
+                const { data, status, error } = await useFetchApi(this.iri) as IUser | any
 
-                if(error.value) {
+                if (error.value) {
                     this.logout()
                 } else {
-                    if(data.value && status.value == 'success') {
+                    if (data.value && status.value == 'success') {
                         this.user['@id'] = data.value.data.user.iriFromResource
                         this.user.roles = data.value.data.user.roles
                         this.roles = data.value.data.user.roles
@@ -133,25 +133,25 @@ export const useAuthStore = defineStore('auth', {
                         this.giveAccess(true)
                         this.checkIsLoggedIn()
                         useAccountStore().init(this.user as IUser | any)
-                    } 
+                    }
                 }
-                
+
                 this.status = status.value
             }
         },
-    
+
         async init() {
             this.isLoading = true
-            
-            if(this.iri && this.token) {
+
+            if (this.iri && this.token) {
                 await this.getUser()
-            } 
-            
+            }
+
             this.isLoading = false
         },
-    
-        async  logout() {
-            if(this.isLoggedIn) {
+
+        async logout() {
+            if (this.isLoggedIn) {
                 this.isLoading = true
                 this.status = null
                 this.response = null
@@ -161,12 +161,12 @@ export const useAuthStore = defineStore('auth', {
                 this.iri = null
                 this.roles = []
 
-                const {error, status, data} = await useFetchApi('/auth/logout', {method: 'POST'}) as any                   
+                const { error, status, data } = await useFetchApi('/auth/logout', { method: 'POST' }) as any
 
-                if(error.value) {
+                if (error.value) {
                     console.error(error.value)
                 } else {
-                    if(data.value && status.value == 'success') {
+                    if (data.value && status.value == 'success') {
                         navigateTo('/')
                         useFlashStore().success(data.value.flash.message)
                     }
@@ -181,20 +181,20 @@ export const useAuthStore = defineStore('auth', {
             this.isLoading = true
             this.status = null
             this.response = null
-            
+
             const { status, error, data } = await useFetchApi('/forgot-password', {
                 method: 'POST',
                 body: email
             })
 
-            if(error.value) {
+            if (error.value) {
                 this.errors = error.value.data.errors
             } else {
-                if(status.value === 'success' && data.value) {
+                if (status.value === 'success' && data.value) {
                     this.response = data.value
                 }
             }
-            
+
             this.status = status.value
             this.isLoading = false
         },
@@ -208,11 +208,11 @@ export const useAuthStore = defineStore('auth', {
                 method: 'POST',
                 body: resetData,
             })
-            
+
             if (error.value) {
                 this.errors = error.value.data.errors;
             } else {
-                if(status.value === 'success') {
+                if (status.value === 'success') {
                     console.log(data.value)
                     navigateTo('/')
                     useNavbarStore().showLogin()
@@ -222,24 +222,24 @@ export const useAuthStore = defineStore('auth', {
                         status: statusText.value
                     }
                 }
-  
+
             }
 
             this.status = status.value
             this.isLoading = false
         },
-        
+
         checkIsLoggedIn() {
-            if(this.token && this.iri) {
+            if (this.token && this.iri) {
                 this.isLoggedIn = true
             } else {
                 this.isLoggedIn = false
             }
         },
 
-        reset () {
+        reset() {
             this.errors = null
-            
+
             setTimeout(() => {
                 this.response = null
             }, 20000)
@@ -255,10 +255,10 @@ export const useAuthStore = defineStore('auth', {
                 avatarUrl: '',
                 bio: '',
                 roles: [],
-            
+
                 articles: [],
                 comments: [],
-                
+
                 createdAtAgo: '',
                 updatedAtAgo: ''
             }
@@ -268,20 +268,20 @@ export const useAuthStore = defineStore('auth', {
             const isGranted = ref(false)
 
             this.roles.forEach(r => {
-                if(r === role) {
+                if (r === role) {
                     isGranted.value = true
                 }
             })
-            
-            return isGranted.value; 
+
+            return isGranted.value;
         },
 
         giveAccess(access: boolean) {
-            if(!access) {
-                return navigateTo('/dashboard/error/401', {replace: true})
+            if (!access) {
+                return navigateTo('/dashboard/error/401', { replace: true })
             }
         }
-    }, 
+    },
 
     getters: {
     },
@@ -289,6 +289,6 @@ export const useAuthStore = defineStore('auth', {
     persist: true
 })
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useAuthStore, import.meta.hot))
 }

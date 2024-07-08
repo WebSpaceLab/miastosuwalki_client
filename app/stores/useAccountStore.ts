@@ -1,7 +1,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useAuthStore } from './useAuthStore'
-import { IUser } from '../types/IUser'
-
+import { IUser } from '../../types/IUser'
+import axios from '../plugins/axios'
+const $axios = axios().provide.axios
 
 export const useAccountStore = defineStore('account', {
     state: () => {
@@ -9,27 +10,27 @@ export const useAccountStore = defineStore('account', {
             user: null as any | null,
 
             roles: [],
-            progressImage: 0 as number 
+            progressImage: 0 as number
         }
     },
 
-    actions : {
+    actions: {
         init(user: IUser) {
             this.user = user
             this.renameRoles()
         },
 
         renameRoles() {
-            if(this.user) {
+            if (this.user) {
                 this.roles = []
                 this.user.roles.forEach((role: string) => {
                     this.roles.push(role.substring(5))
-                }) 
+                })
             }
         },
 
         async updateUserImage(form: any) {
-            if(this.user) {
+            if (this.user) {
                 return await $axios.post(`${this.user['@id']}/avatar-update`, form, {
                     headers: {
                         "Authorization": 'Bearer ' + useAuthStore().token,
@@ -39,10 +40,10 @@ export const useAccountStore = defineStore('account', {
                     },
                 })
             }
-        },   
-      
+        },
+
         async updateUser(username: string, bio: string, firstName: string, lastName: string) {
-            if(this.user) {
+            if (this.user) {
                 return await useFetchApi(this.user['@id'], {
                     method: 'PATCH',
                     body: {
@@ -56,7 +57,7 @@ export const useAccountStore = defineStore('account', {
         },
 
         async updatePassword(form: any) {
-            if(this.user) {
+            if (this.user) {
                 return await useFetchApi(`${this.user['@id']}/update-password`, {
                     method: 'PATCH',
                     body: form
@@ -66,6 +67,6 @@ export const useAccountStore = defineStore('account', {
     },
 })
 
-if(import.meta.hot) {
+if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useAccountStore, import.meta.hot))
 }
