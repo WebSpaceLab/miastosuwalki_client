@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     {
       autoImports: ['defineStore', 'acceptHMRUpdate'],
     }
-  ], '@nuxt/image', '@pinia-plugin-persistedstate/nuxt', 'nuxt-icon', '@nuxtjs/color-mode', '@unocss/nuxt', "@nuxtjs/seo", "@nuxtjs/i18n", "nuxt-og-image", "@nuxt/eslint", "nuxt-schema-org", "nuxt-link-checker", "nuxt-seo-experiments"],
+  ], '@nuxt/image', '@pinia-plugin-persistedstate/nuxt', 'nuxt-icon', '@nuxtjs/color-mode', '@unocss/nuxt', "@nuxtjs/seo", "@nuxtjs/i18n", "nuxt-og-image", "@nuxt/eslint", "nuxt-schema-org", "nuxt-link-checker", "nuxt-seo-experiments", "@nuxt/scripts", "@dargmuesli/nuxt-cookie-control"],
 
   app: {
     // layoutTransition: { name: 'layout', mode: 'out-in' },
@@ -143,4 +143,49 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2024-07-08',
+
+  cookieControl: {
+    cookies: {
+      necessary: [
+        {
+          id: 'ccc',
+          name: 'Website & API',
+          description: 'Niezbędne do prawidłowego działania witryny',
+          links: {
+            '/privacy': 'Privacy Policy',
+            '/terms': 'Terms of Service',
+          },
+          targetCookieIds: [
+            'cookie_control_consent', 'cookie_control_enabled_cookies'
+          ],
+        },
+      ],
+      optional: [
+        {
+          id: 'ga',
+          name: 'Google Analytics',
+          description: 'Gromadzi anonimowe statystyki dotyczące korzystania ze strony internetowej',
+          targetCookieIds: [
+            '_ga', '_gid', '_gat'
+          ],
+        },
+        // {
+        //   name: 'Google Ads',
+        //   description: 'Used to track visitors across websites',
+        //   cookies: [
+        //     'ads/ga-audiences', 'ads/ga-audiences'
+        //   ]
+        // }
+      ],
+    },
+
+    colors: {
+      barBackground: '#020617',
+      barText: '#fff',
+      barButtonBackground: '#0284c7',
+      barButtonColor: '#fff',
+
+      modalButtonBackground: '#0284c7',
+    },
+  }
 })
