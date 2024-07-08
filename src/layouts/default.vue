@@ -1,6 +1,9 @@
 <script setup>
     const route = useRoute();
+    const { $auth,  $navbar } = useNuxtApp()
+    // TODO: Sprawdzić czemu tu jest fetch ???
     const res = await $fetch(`/api/ogImage/` + route.params.slug)
+    
     defineOgImageComponent("Main", {
       headline: "Zapraszm na stronę",
       title: "Portal Internetowy Miasto Suwałki",
@@ -13,7 +16,6 @@
       siteName: "Portal Internetowy Miasto Suwałki",
     })
 
-    const { $auth,  $navbar } = useNuxtApp()
     const setColorTheme = (newTheme) => {
         useColorMode().preference = newTheme
     }

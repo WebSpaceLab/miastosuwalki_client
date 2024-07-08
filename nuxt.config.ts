@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   srcDir: './src',
-
+  // future: { compatibilityVersion: 4 },
   devtools: {
     enabled: true,
 
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     {
       autoImports: ['defineStore', 'acceptHMRUpdate'],
     }
-  ], '@nuxt/image', '@pinia-plugin-persistedstate/nuxt', 'nuxt-icon', '@nuxtjs/color-mode', '@unocss/nuxt', '@weareheavy/nuxt-cookie-consent', "@nuxtjs/seo", "@nuxtjs/i18n", "nuxt-og-image", "@nuxt/eslint", "nuxt-schema-org", "nuxt-link-checker", "nuxt-seo-experiments"],
+  ], '@nuxt/image', '@pinia-plugin-persistedstate/nuxt', 'nuxt-icon', '@nuxtjs/color-mode', '@unocss/nuxt', "@nuxtjs/seo", "@nuxtjs/i18n", "nuxt-og-image", "@nuxt/eslint", "nuxt-schema-org", "nuxt-link-checker", "nuxt-seo-experiments"],
 
   app: {
     // layoutTransition: { name: 'layout', mode: 'out-in' },
@@ -45,13 +45,6 @@ export default defineNuxtConfig({
       // gmt_enabled: process.env.GTM_ENABLED,
       // gmt_debug: process.env.GTM_DEBUG
     }
-  },
-  cookieConsent: {
-    provider: 'cookiebot',
-    cbid: 'e0e0b415-2e52-4e04-9764-47e53ec28182', // Replace with you "cbid" from CookieBot
-
-    consentMode: false, // Disable consent mode (default: true)
-    consentModeDefaults: false, // Disable content mode defaults (default: true)
   },
 
   colorMode: {
@@ -111,13 +104,6 @@ export default defineNuxtConfig({
     sources: [
       '/api/__sitemap__/urls',
     ],
-    // sitemaps: {
-    //   posts: {
-    //     sources: [
-    //       'https://api.miastosuwalki.pl/api/urls'
-    //     ]
-    //   },
-    // }
   },
 
   routeRules: {
@@ -149,4 +135,12 @@ export default defineNuxtConfig({
       // markdown: true,
     }
   },
+
+  eslint: {
+    config: {
+      stylistic: true // <---
+    }
+  },
+
+  compatibilityDate: '2024-07-08',
 })
