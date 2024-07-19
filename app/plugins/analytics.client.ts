@@ -1,7 +1,17 @@
 export default defineNuxtPlugin((nuxtApp) => {
     const cookieControl = useCookieControl()
-    console.log('cookieControl', cookieControl.cookiesEnabledIds.value?.includes('ga'))
+    const { gtag, $script } = useScriptGoogleAnalytics()
+    function initGoogleAnalytics() {
+
+    }
     if (cookieControl.cookiesEnabledIds.value?.includes('ga')) {
-        console.log('Google Analytics enabled')
+        gtag('event', 'conversion')
+        $script.load()
+        console.log('Google Analytics enabled', $script.status)
+
+    } else {
+
+        $script.remove()
+        console.log('Google Analytics disabled', $script.status)
     }
 })

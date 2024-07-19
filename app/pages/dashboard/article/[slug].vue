@@ -46,7 +46,7 @@ function removePhotoFromGallery(event) {
 }
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

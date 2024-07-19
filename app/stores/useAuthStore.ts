@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
             this.status = null
             this.response = null
 
-            const { error, status } = await useFetchApi('/auth/register', {
+            const { error, status } = await useFetchApi('/api/auth/register', {
                 method: 'POST',
                 body: info,
             })
@@ -71,7 +71,7 @@ export const useAuthStore = defineStore('auth', {
             this.status = null
             this.response = null
 
-            const { error, status, data } = await useFetchApi('/auth/login', {
+            const { error, status, data } = await useFetchApi('/api/auth/login', {
                 method: 'POST',
                 body: credentials,
             }) as IApiToken | any
@@ -161,7 +161,7 @@ export const useAuthStore = defineStore('auth', {
                 this.iri = null
                 this.roles = []
 
-                const { error, status, data } = await useFetchApi('/auth/logout', { method: 'POST' }) as any
+                const { error, status, data } = await useFetchApi('/api/auth/logout', { method: 'POST' }) as any
 
                 if (error.value) {
                     console.error(error.value)
@@ -182,7 +182,7 @@ export const useAuthStore = defineStore('auth', {
             this.status = null
             this.response = null
 
-            const { status, error, data } = await useFetchApi('/forgot-password', {
+            const { status, error, data } = await useFetchApi('/api/forgot-password', {
                 method: 'POST',
                 body: email
             })
@@ -204,7 +204,7 @@ export const useAuthStore = defineStore('auth', {
             this.status = null
             this.response = null
 
-            const { status, error, data } = await useFetchApi('/reset-password', {
+            const { status, error, data } = await useFetchApi('/api/reset-password', {
                 method: 'POST',
                 body: resetData,
             })

@@ -99,17 +99,17 @@ export const useHomepageStore = defineStore('homepage', {
                     top: [
                         {
                             id: 1,
-                            name: "Koncert otwarcia SBF 2024 – ZALEWSKI",
-                            description: "Zapraszamy na koncert otwarcia Suwałki Blues Festival 2024. Na początek 17. edycji festiwalu wystąpi gwiazda polskiej sceny muzycznej, zdobywca wielu muzycznych nagród i twórca przebojów – ZALEWSKI.",
-                            targetUrl: "https://suwalkiblues.com/koncert-otwarcia-sbf-2024-zalewski-support-noa-the-hell-drinks-es_1/",
-                            previewUrl: "/images/ads/IMG_2549.jpg"
+                            name: "Racis development",
+                            description: "Racis Development - Naszym celem jest zapewnienie szerokiej oferty mieszkań, apartamentów oraz lokali usługowych, które spełnią zróżnicowane oczekiwania nawet najbardziej wymagających Klientów.",
+                            targetUrl: "https://racis.pl",
+                            previewUrl: "/images/ads/racis.gif"
                         },
                         {
                             id: 2,
-                            name: "Suwałki Blues Festival 2024",
-                            description: "Suwałki Blues Festival 2024",
-                            targetUrl: "https://suwalkiblues.com/suwalki-blues-festival-2023/",
-                            previewUrl: "/images/ads/IMG_2550.jpg"
+                            name: "Dni Suwałk 2024",
+                            description: "Zapraszamy na Dni Suwałk 2024, które od będą się odbywać od 9 do 11 lipca. W programie wiele atrakcji!",
+                            targetUrl: "https://www.facebook.com/events/470375238973873/?acontext=%7B%22event_action_history%22%3A%5B%7B%22surface%22%3A%22home%22%7D%2C%7B%22mechanism%22%3A%22search_data.valueults%22%2C%22surface%22%3A%22search%22%7D%5D%2C%22ref_notif_type%22%3Anull%7D",
+                            previewUrl: "/images/ads/DniSuwalk2024.jpg"
                         },
                         {
                             id: 3,
@@ -162,39 +162,42 @@ export const useHomepageStore = defineStore('homepage', {
             this.isLoading = true
 
             try {
-                const res = await $fetch(`/api/homepage`, {
-                    method: 'GET'
-                }) as any
+                const { data, error } = await useFetchApi('/api/homepage') as any
 
-                if (res.data) {
-                    if (res.data?.hero) {
-                        if (res.data?.hero.town) {
-                            this.data.hero.town = { ...res.data?.hero.town, isLoading: false };
+                if (error.value) {
+                    this.errors = error.value
+                    return
+                }
+
+                if (data.value) {
+                    if (data.value.data?.hero) {
+                        if (data.value.data?.hero.town) {
+                            this.data.hero.town = { ...data.value.data?.hero.town, isLoading: false };
                         }
 
-                        if (res.data?.hero.history) {
-                            this.data.hero.history = { ...res.data?.hero.history, isLoading: false };
+                        if (data.value.data?.hero.history) {
+                            this.data.hero.history = { ...data.value.data?.hero.history, isLoading: false };
                         }
 
-                        if (res.data?.hero.technology) {
-                            this.data.hero.technology = { ...res.data?.hero.technology, isLoading: false };
+                        if (data.value.data?.hero.technology) {
+                            this.data.hero.technology = { ...data.value.data?.hero.technology, isLoading: false };
                         }
 
-                        if (res.data?.hero.culture) {
-                            this.data.hero.culture = { ...res.data?.hero.culture, isLoading: false };
+                        if (data.value.data?.hero.culture) {
+                            this.data.hero.culture = { ...data.value.data?.hero.culture, isLoading: false };
                         }
 
-                        if (res.data?.hero.sport) {
-                            this.data.hero.sport = { ...res.data?.hero.sport, isLoading: false };
+                        if (data.value.data?.hero.sport) {
+                            this.data.hero.sport = { ...data.value.data?.hero.sport, isLoading: false };
                         }
 
-                        if (res.data?.hero.nature) {
-                            this.data.hero.nature = { ...res.data?.hero.nature, isLoading: false };
+                        if (data.value.data?.hero.nature) {
+                            this.data.hero.nature = { ...data.value.data?.hero.nature, isLoading: false };
                         }
                     }
 
-                    if (res.data?.latest) {
-                        res.data?.latest.forEach((element: any, index: any) => {
+                    if (data.value.data?.latest) {
+                        data.value.data?.latest.forEach((element: any, index: any) => {
                             if (index === 0) {
                                 this.data.latest.first = { ...element, isLoading: false };
                             } else {
@@ -207,17 +210,17 @@ export const useHomepageStore = defineStore('homepage', {
                         });
                     }
 
-                    if (res.data?.town) {
-                        res.data?.town.forEach((element: any, index: any) => {
+                    if (data.value.data?.town) {
+                        data.value.data?.town.forEach((element: any, index: any) => {
                             if (index < 5) {
                                 this.data.town[index] = { ...element, isLoading: false };
                             }
                         });
                     }
 
-                    if (res.data?.history) {
+                    if (data.value.data?.history) {
 
-                        res.data?.history.forEach((element: any, index: any) => {
+                        data.value.data?.history.forEach((element: any, index: any) => {
                             if (index === 0) {
                                 this.data.history.first = { ...element, isLoading: false };
                             } else {
@@ -230,9 +233,9 @@ export const useHomepageStore = defineStore('homepage', {
                         });
                     }
 
-                    if (res.data?.nature) {
+                    if (data.value.data?.nature) {
 
-                        res.data?.nature.forEach((element: any, index: any) => {
+                        data.value.data?.nature.forEach((element: any, index: any) => {
                             if (index === 0) {
                                 this.data.nature.first = { ...element, isLoading: false };
                             } else {
@@ -245,9 +248,9 @@ export const useHomepageStore = defineStore('homepage', {
                         });
                     }
 
-                    if (res.data?.culture) {
+                    if (data.value.data?.culture) {
 
-                        res.data?.culture.forEach((element: any, index: any) => {
+                        data.value.data?.culture.forEach((element: any, index: any) => {
                             if (index === 0) {
                                 this.data.culture.first = { ...element, isLoading: false };
                             } else {
@@ -260,9 +263,9 @@ export const useHomepageStore = defineStore('homepage', {
                         });
                     }
 
-                    if (res.data?.sport) {
+                    if (data.value.data?.sport) {
 
-                        res.data?.sport.forEach((element: any, index: any) => {
+                        data.value.data?.sport.forEach((element: any, index: any) => {
                             if (index === 0) {
                                 this.data.sport.first = { ...element, isLoading: false };
                             } else {
@@ -275,15 +278,15 @@ export const useHomepageStore = defineStore('homepage', {
                         });
                     }
 
-                    if (res.data?.technology) {
-                        res.data?.technology.forEach((element: any, index: any) => {
+                    if (data.value.data?.technology) {
+                        data.value.data?.technology.forEach((element: any, index: any) => {
                             if (index < 5) {
                                 this.data.technology[index] = { ...element, isLoading: false };
                             }
                         });
                     }
 
-                    this.data.about = res.data?.about
+                    this.data.about = data.value.data?.about
 
                     // if(data.value.data?.advertisements) {
                     //     if(data.value.data?.advertisements.top) {

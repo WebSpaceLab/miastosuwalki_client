@@ -5,7 +5,7 @@ const { $article, $auth } = useNuxtApp()
 const { data , isLoading, pagination, months, queryParams,  status } = storeToRefs($article)
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

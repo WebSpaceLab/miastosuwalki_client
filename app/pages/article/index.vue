@@ -71,6 +71,12 @@ watch(() => query.value.orderDir, async () => {
     page.value = 1
     await getPublishedArticles()
 })
+
+useSeoMeta({
+    title: () => 'Artykuły1',
+    ogSiteName: () => 'Portal Internetowy Miasto Suwałki',
+    ogLocale: () => 'pl_PL',
+})
 </script>
 
 <template>

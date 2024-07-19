@@ -2,9 +2,9 @@
 </script>
 
 <template>
-   <section id="contact" class="snap-start scroll-mt-0 relative h-full mb-10 lg:my-20 flex justify-center items-center  box-border">
+   <section id="contact" class="snap-start scroll-mt-0 relative h-full mb-10 lg:mb-0 lg:my-20 flex justify-center items-center  box-border">
       <div class="container mx-auto w-full h-full relative z-10">
-        <header class="w-full mb-10 flex flex-col">
+        <header class="w-full flex flex-col">
             <div class="mb-1 w-full bg-green-600 flex justify-center items-center rounded-t-lg">
                 <h2 class="text-2xl m-0 text-background-light dark:text-background-dark uppercase font-extrabold"> Kontakt </h2>
             </div>
@@ -12,7 +12,7 @@
             <span class="border border-solid border-b-1 border-green-600"/>
         </header>
 
-         <div  class="w-full h-full flex flex-col lg:flex-row space-y-20 lg:justify-between items-center p-8 rounded-lg  box-border">
+         <div  class="w-full h-full flex flex-col lg:flex-row space-y-20 lg:space-y-0 lg:justify-between items-start p-8 rounded-lg  box-border">
             <div v-if="$contact.data.name" class="w-full lg:w-1/2 xl:w-6/12 flex flex-col justify-center px-4 box-border">
                 <div data-aos-delay="400"  data-aos="fade-left" data-aos-duration="1000" class="relative max-w-[570px] mb-12 lg:mb-0 box-border">
                     <div class="w-full flex flex-col lg:flex-row justify-center items-center space-x-5"> 

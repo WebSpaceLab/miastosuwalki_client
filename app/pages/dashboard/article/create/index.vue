@@ -40,7 +40,7 @@ function openEditFile(file) {
 }
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

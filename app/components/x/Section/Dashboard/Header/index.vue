@@ -89,13 +89,13 @@ onMounted(() => {
             v-if="$dashboard.sidebar.isShowHelperBar"
             :class="[
                 // $navbar.isScroll ? 'fixed top-20' : 'relative w-full',
-                $dashboard.sidebar.isShow ?
-                    $dashboard.sidebar.isRail ? 
-                        'md:w-[calc(100%-110px)] fixed top-20' : 'md:w-[calc(100%-280px)] fixed top-20' 
-                        : '',
+                // $dashboard.sidebar.isShow ?
+                //     $dashboard.sidebar.isRail ? 
+                //         'md:w-[calc(100%-110px)]' : 'md:w-[calc(100%-280px)]' 
+                //         : '',
                 $dashboard.sidebar.isRightSide ? 'left-0' : 'right-0',
             ]"
-            class="z-20 fixed top-20 w-full flex flex-col md:flex-row pl-4 pr-6 space-y-2 justify-between items-end box-border rounded-xl transition-all duration-500"
+            class="z-20 sticky top-20 w-full flex flex-col md:flex-row pl-4 pr-6 space-y-2 justify-between items-center box-border rounded-xl transition-all duration-500"
         >
             <div class="h-full hidden md:block  -translate-x-2 translate-y-3">
                 <x-breadcrumb :first-link="firstLink[0]" :second-link="secondLink[0]" :third-link="thirdLink[0]" :last-link="currentLink[0]" />

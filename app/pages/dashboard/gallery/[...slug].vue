@@ -22,7 +22,7 @@ let isShowUploaderField = ref(false)
 const slug = ref(route.params.slug)
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

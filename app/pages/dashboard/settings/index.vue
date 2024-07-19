@@ -2,7 +2,7 @@
 const { $auth } = useNuxtApp()
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

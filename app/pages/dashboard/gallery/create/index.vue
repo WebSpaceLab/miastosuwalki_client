@@ -16,7 +16,7 @@ let isShowFiledPhotoGallery = ref(false)
 let isShowUploaderField = ref(false)
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

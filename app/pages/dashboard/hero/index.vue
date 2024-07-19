@@ -5,7 +5,7 @@ const { $hero, $auth } = useNuxtApp()
 const { data , pagination, months, queryParams,  status } = storeToRefs($hero)
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

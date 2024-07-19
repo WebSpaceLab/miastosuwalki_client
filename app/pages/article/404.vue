@@ -17,7 +17,7 @@
 
 <script setup>
 definePageMeta({
-  layout: "errors",
+  layout: "default",
 });
 
 const setColorTheme = (newTheme) => {

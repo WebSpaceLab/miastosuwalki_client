@@ -5,7 +5,7 @@ const { $inbox, $auth } = useNuxtApp()
 const { data , pagination, months, queryParams,  read, isLoading } = storeToRefs($inbox)
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

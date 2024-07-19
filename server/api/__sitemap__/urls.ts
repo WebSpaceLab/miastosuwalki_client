@@ -1,9 +1,9 @@
 import { asSitemapUrl, defineSitemapEventHandler } from '#imports'
 
 export default defineSitemapEventHandler(async () => {
+    const url = useRuntimeConfig().proxyUrl
 
-
-    const sitemap = await $fetch<ReturnType<typeof asSitemapUrl>>('https://api.miastosuwalki.pl/api/urls')
+    const sitemap = await $fetch<ReturnType<typeof asSitemapUrl>>(url + '/api/__sitemap__/urls')
 
     return sitemap.map((url: asSitemapUrl) => {
         return asSitemapUrl({

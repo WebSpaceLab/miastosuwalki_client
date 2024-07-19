@@ -20,17 +20,17 @@ export const useArticleStore = defineStore('article', {
                 top: [
                     {
                         id: 1,
-                        name: "Koncert otwarcia SBF 2024 – ZALEWSKI",
-                        description: "Zapraszamy na koncert otwarcia Suwałki Blues Festival 2024. Na początek 17. edycji festiwalu wystąpi gwiazda polskiej sceny muzycznej, zdobywca wielu muzycznych nagród i twórca przebojów – ZALEWSKI.",
-                        targetUrl: "https://suwalkiblues.com/koncert-otwarcia-sbf-2024-zalewski-support-noa-the-hell-drinks-es_1/",
-                        previewUrl: "/images/ads/IMG_2549.jpg"
+                        name: "Racis development",
+                        description: "Racis Development - Naszym celem jest zapewnienie szerokiej oferty mieszkań, apartamentów oraz lokali usługowych, które spełnią zróżnicowane oczekiwania nawet najbardziej wymagających Klientów.",
+                        targetUrl: "https://racis.pl",
+                        previewUrl: "/images/ads/racis.gif"
                     },
                     {
                         id: 2,
-                        name: "Suwałki Blues Festival 2024",
-                        description: "Suwałki Blues Festival 2024",
-                        targetUrl: "https://suwalkiblues.com/suwalki-blues-festival-2023/",
-                        previewUrl: "/images/ads/IMG_2550.jpg"
+                        name: "Dni Suwałk 2024",
+                        description: "Zapraszamy na Dni Suwałk 2024, które od będą się odbywać od 9 do 11 lipca. W programie wiele atrakcji!",
+                        targetUrl: "https://www.facebook.com/events/470375238973873/?acontext=%7B%22event_action_history%22%3A%5B%7B%22surface%22%3A%22home%22%7D%2C%7B%22mechanism%22%3A%22search_data.valueults%22%2C%22surface%22%3A%22search%22%7D%5D%2C%22ref_notif_type%22%3Anull%7D",
+                        previewUrl: "/images/ads/DniSuwalk2024.jpg"
                     },
                     {
                         id: 3,
@@ -67,6 +67,7 @@ export const useArticleStore = defineStore('article', {
                         targetUrl: "",
                         previewUrl: "/images/ads/image_6483441.JPG"
                     },
+
                 ],
                 sidebar: null as [] | null,
             },
@@ -326,39 +327,31 @@ export const useArticleStore = defineStore('article', {
             this.show.data = {}
             this.show.latest = []
 
-            await $fetch(`/api/articles/${slug}`, {
-                method: 'GET'
-            }).then((res: any) => {
-                if (res) {
-                    this.show.data = res.data.article
-                    this.show.latest = res.data.latest
-                } else {
+            try {
+                let { data, status, error } = await useFetchApi(`/api/articles/${slug}`, {
+                    method: 'GET'
+                }) as any
+
+                if (error.value) {
                     navigateTo('/article/404')
+                } else {
+                    if (data.value && status.value === 'success') {
+                        this.show.data = data.value.data.article
+                        this.show.latest = data.value.data.latest
+
+                        return
+
+                        // if(data.value.data.advertisements) {
+                        //     this.advertisements.sidebar = data.value.data.advertisements.sidebar
+                        //     this.advertisements.top = data.value.data.advertisements.top
+                        // }
+                    }
                 }
-            }).catch((error) => {
+            } catch (error) {
                 console.error(error)
-            }).finally(() => {
+            } finally {
                 this.isLoading = false
-            })
-
-
-            // if(error) {
-            //     navigateTo('/article/404')
-            // } else {
-            //     if(data ) {
-            //         console.log(data)
-
-            //         this.show.data = data.value.data.article
-            //         this.show.latest = data.value.data.latest
-
-            //         // if(data.value.data.advertisements) {
-            //         //     this.advertisements.sidebar = data.value.data.advertisements.sidebar
-            //         //     this.advertisements.top = data.value.data.advertisements.top
-            //         // }
-            //     }
-            // }
-
-            // this.isLoading = pending.value
+            }
         },
 
         async destroy(articleId: number) {

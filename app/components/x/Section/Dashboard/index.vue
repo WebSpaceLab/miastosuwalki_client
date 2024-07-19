@@ -49,7 +49,7 @@
             </template>
         </x-section-dashboard-header>
 
-        <div class="w-full  md:px-6 box-border transition-all duration-500" :class="$dashboard.sidebar.isShowHelperBar ? 'mt-36' : 'mt-20'">
+        <div class="w-full md:px-6 box-border transition-all duration-500" >
             <slot name="main" />
         </div>
 

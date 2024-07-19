@@ -1,20 +1,43 @@
 <script setup>
-    const route = useRoute();
-    const { $auth,  $navbar } = useNuxtApp()
-    // TODO: Sprawdzić czemu tu jest fetch ???
-    const res = await $fetch(`/api/ogImage/` + route.params.slug)
+    const {slug} = useRoute().params;
     
-    defineOgImageComponent("Main", {
-      headline: "Zapraszm na stronę",
-      title: "Portal Internetowy Miasto Suwałki",
-      description:
-        "Odkryj urok Miasta Suwałki online – Twoje źródło lokalnych informacji i inspiracji!",
-      theme: "#22c55e",
-      colorMode: "light",
-      siteLogo: "https://miastosuwalki.pl/images/Logo.png",
-      icon:  "https://miastosuwalki.pl/images/Logo.png",
-      siteName: "Portal Internetowy Miasto Suwałki",
+    const res = await $fetch(`/api/ogImage/` + slug)
+
+    useSeoMeta({
+        title: () => res.ogImage.title,
+        description: () => res.ogImage.description,
+        ogImage: () => res.ogImage.image,
+        ogUrl: () => 'https://miastosuwalki.pl/article/' + slug,
+        ogType: () => 'article',
+        ogSiteName: () => 'Portal Internetowy Miasto Suwałki',
+        ogLocale: () => 'pl_PL',
+        ogTitle: () => res.ogImage.title,
+        ogDescription: () => res.ogImage.description,
+        ogImageWidth: () => 1200,
+        ogImageHeight: () => 630,
+        ogImageType: () => 'image/jpeg',
+        ogImageAlt: () => res.ogImage.title,
+        ogImageSecureUrl: () => res.ogImage.image,
     })
+
+    useSchemaOrg([
+        defineArticle({
+        '@type': 'NewsArticle',
+        '@id': 'https://miastosuwalki.pl/article/' + slug,
+        headline: res.ogImage.title,
+        image: res.ogImage.image,
+        description: res.ogImage.description,
+        inLanguage: 'pl-PL',
+        datePublished: res.ogImage.datePublished,
+        dateModified: res.ogImage.dateModified,
+        publisher: 'Miasto Suwałki',
+        author: res.ogImage.author,
+        isPartOf: 'https://miastosuwalki.pl',
+        mainEntityOfPage: 'https://miastosuwalki.pl/article/' + slug,
+        })
+    ])
+    
+    const { $navbar } = useNuxtApp()
 
     const setColorTheme = (newTheme) => {
         useColorMode().preference = newTheme
@@ -22,7 +45,6 @@
 
     function activateDropdown(active) {
         if(active) {
-
             $navbar.activate()
         } else {
             $navbar.close()
@@ -94,6 +116,16 @@
 
                     <template #action>
                         <div class="flex justify-center items-center">
+
+                            <x-btn v-if="$auth.isLoggedIn" @click="$dashboard.toggleShowMenuBar()" color="secondary" :tooltip="{text: $dashboard.sidebar.isShowMenuBar ? 'Zamknij pasek boczny' : 'Otwórz pasek boczny'}" ring strip icon class="mr-3">
+                                <template #icon>
+                                    <div>
+                                        <Icon v-if=" $dashboard.sidebar.isShowMenuBar" class="text-lg" name="i-material-symbols-right-panel-close-sharp" />
+                                        <Icon v-else class="text-xl" name="i-material-symbols-light-left-panel-open-rounded" />
+                                    </div>
+                                </template>
+                            </x-btn>
+
                             <x-btn @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')" color="secondary" :tooltip="{text: `Zmień motyw na ${$colorMode.value == 'dark' ? 'jasny' : 'ciemny'}`}" ring strip icon class="mr-3">
                                 <template #icon>
                                     <div>
@@ -161,11 +193,17 @@
                        </navbar-dropdown>
                     </template>
                 </Navbar>
+
+
             </div>
         </template>
 
         <template #main>
-            <slot />
+            <x-sidebar   v-if="$auth.isLoggedIn" />
+            
+            <x-container >
+                <slot/>
+            </x-container>
         </template>
 
         <template #footer>
@@ -174,6 +212,20 @@
 
         <template #addons>
             <div>
+                <x-modal-auth-login
+                    :show="$navbar.isShowLogin"
+                    :minimization="null"
+                    :closeable="true"
+                    @close="(event) => $navbar.switchLogin(event)"
+                /> 
+
+                <x-modal-auth-register
+                    :show="$navbar.isShowRegister"
+                    :minimization="null"
+                    :closeable="true"
+                    @close="(event) => $navbar.switchRegister(event)"
+                /> 
+                
                 <x-modal-auth-forgot-password
                     :show="$navbar.isShowForgotPassword"
                     :minimization="null"

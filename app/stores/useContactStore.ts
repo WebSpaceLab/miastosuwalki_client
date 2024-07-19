@@ -40,6 +40,13 @@ export const useContactStore = defineStore('contact', {
                     //     this.$state.data.phone = ''
                     //     this.$state.data.map = ''
                     // }
+
+                    useSeoMeta({
+                        title: "Kontakt | Portal Internetowy Miasto Suwałki",
+                        description: "Odkryj urok Miasta Suwałki online – Twoje źródło lokalnych informacji i inspiracji!",
+                        ogImage: "https://miastosuwalki.pl/images/Logo.png",
+                    })
+
                 }
             } catch (error) {
                 console.error(error)

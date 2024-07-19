@@ -6,6 +6,7 @@ export const useDashboardStore = defineStore('dashboard', {
             isRail: false,
             isRightSide: false,
             isShowHelperBar: true,
+            isShowMenuBar: true,
             links: [
                 { title: 'Strona główna', icon: 'ic:sharp-home', name: 'index', path: '/', type: 'home', access: 'ROLE_USER', children: [] },
 
@@ -64,6 +65,9 @@ export const useDashboardStore = defineStore('dashboard', {
             this.sidebar.isRail === false ? this.reduce() : this.enlarge();
         },
 
+        toggleShowMenuBar() {
+            this.sidebar.isShowMenuBar = !this.sidebar.isShowMenuBar;
+        }
     },
 
     persist: true

@@ -72,7 +72,7 @@ onMounted(async () => {
                 :class="hover ? 'scale-110' : 'scale-100'"
             >
                 <div 
-                    class="w-full h-full grid " 
+                    class="w-full h-full grid gap-1" 
                     :class="[
                         count > 1 ? 'grid-cols-2' : 'grid-cols-1',
                         count == 2 ? 'grid-cols-2 grid-rows-1' : '',

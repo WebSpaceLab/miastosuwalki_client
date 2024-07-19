@@ -23,12 +23,12 @@ export default defineNuxtConfig({
     {
       autoImports: ['defineStore', 'acceptHMRUpdate'],
     }
-  ], '@nuxt/image', '@pinia-plugin-persistedstate/nuxt', 'nuxt-icon', '@nuxtjs/color-mode', '@unocss/nuxt', "@nuxtjs/seo", "@nuxtjs/i18n", "nuxt-og-image", "@nuxt/eslint", "nuxt-schema-org", "nuxt-link-checker", "nuxt-seo-experiments", "@nuxt/scripts", "@dargmuesli/nuxt-cookie-control"],
+  ], '@nuxt/image', '@pinia-plugin-persistedstate/nuxt', 'nuxt-icon', '@nuxtjs/color-mode', '@unocss/nuxt', "@nuxtjs/seo", "@nuxtjs/i18n", "nuxt-og-image", "@nuxt/eslint", "nuxt-schema-org", "nuxt-link-checker", "nuxt-seo-experiments", "@nuxt/scripts", "@dargmuesli/nuxt-cookie-control", "@nuxt/content"],
 
-  app: {
-    // layoutTransition: { name: 'layout', mode: 'out-in' },
-    pageTransition: { name: 'page', mode: 'out-in' },
-  },
+  // app: {
+  // layoutTransition: { name: 'layout', mode: 'out-in' },
+  // pageTransition: { name: 'page', mode: 'out-in' },
+  // },
 
   plugins: [{ src: "@/plugins/aos", ssr: false, mode: "client" }],
 
@@ -38,12 +38,10 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     indexable: true,
+    proxyUrl: process.env.NUXT_PUBLIC_API_URL,
     public: {
-      apiUrl: process.env.BACKEND_URL,
-      appUrl: process.env.FRONTEND_URL,
-      // gmt_id: process.env.GTM_ID,
-      // gmt_enabled: process.env.GTM_ENABLED,
-      // gmt_debug: process.env.GTM_DEBUG
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
+      appUrl: process.env.NUXT_PUBLIC_APP_URL,
     }
   },
 
@@ -80,23 +78,18 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    // baseURL: process.env.BACKEND_URL,
-    // preset: 'node-server',
-    prerender: {
-      crawlLinks: true,
-      failOnError: false,
-
-      // routes: ['/api/urls']
-    }
-  },
+  // nitro: {
+  //   prerender: {
+  //     crawlLinks: true,
+  //     failOnError: false,
+  //   }
+  // },
 
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL,
+    url: process.env.NUXT_PUBLIC_APP_URL,
     trailingSlash: true,
     name: 'Portal Internetowy Miasto Suwałki',
     description: 'Odkryj urok Miasta Suwałki online – Twoje źródło lokalnych informacji i inspiracji!',
-    // locale: 'pl', // not needed if you have @nuxtjs/i18n installed
   },
 
   sitemap: {
@@ -115,7 +108,6 @@ export default defineNuxtConfig({
   i18n: {
     locales: ['pl'],
     defaultLocale: 'pl',
-    // strategy: 'prefix',
   },
 
   robots: {
@@ -138,13 +130,14 @@ export default defineNuxtConfig({
 
   eslint: {
     config: {
-      stylistic: true // <---
+      stylistic: true
     }
   },
 
   compatibilityDate: '2024-07-08',
 
   cookieControl: {
+    locales: ['pl', 'en'],
     cookies: {
       necessary: [
         {
@@ -179,6 +172,7 @@ export default defineNuxtConfig({
       ],
     },
 
+
     colors: {
       barBackground: '#020617',
       barText: '#fff',
@@ -187,5 +181,22 @@ export default defineNuxtConfig({
 
       modalButtonBackground: '#0284c7',
     },
-  }
+  },
+
+  scripts: {
+    registry: {
+      googleAnalytics: {
+        id: 'G-1KCEZTT495'
+      }
+    }
+  },
+
+  // nitro: {
+  //   routeRules: {
+  //     "/px/**": {
+  //       proxy: "https://api.miastosuwalki.pl/**",
+  //       // changeOrigin: true,
+  //     },
+  //   }
+  // },
 })

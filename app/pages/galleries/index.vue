@@ -48,6 +48,12 @@ onMounted(async () => {
     await getPublishedGalleries()
 })
 
+useSeoMeta({
+    title: () => 'Galeria zdjęć',
+    ogSiteName: () => 'Portal Internetowy Miasto Suwałki',
+    ogLocale: () => 'pl_PL',
+})
+
 watch(() => query.value.term, () => {
     setTimeout(async () => {
         page.value = 1
@@ -74,7 +80,7 @@ watch(() => query.value.orderDir, async () => {
 </script>
 
 <template>
-    <section class="w-screen min-h-screen container flex flex-col justify-start items-center pt-6 px-6">
+    <section class="w-screen min-h-screen container mx-auto flex flex-col justify-start items-center pt-6 px-6">
         <div class="relative w-full flex justify-end">
             <div class="w-60">
                 <x-search  v-model="query.term" :filter="false" icon >

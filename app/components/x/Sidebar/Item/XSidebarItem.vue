@@ -41,7 +41,7 @@ watch(() => $dashboard.sidebar.isRail, (event) => {
                  :to="{ path: link.path }"
                  :class="[
                      $dashboard.sidebar.isRail ? '' : 'overflow-hidden',
-                     open ? 'font-semibold text-blue-600' : 'font-medium hover:text-hover-200'
+    
                  ]"
                  class="flex justify-between items-center cursor-pointer decoration-none h-10 w-full rounded  dark:text-muted-dark hover:text-hover-800  dark:hover:text-hover-200"
                  active-class="link-active"
@@ -55,20 +55,23 @@ watch(() => $dashboard.sidebar.isRail, (event) => {
                 </div>
              </NuxtLink>
      
-             <span
+             <NuxtLink
                 v-if="link?.children?.length"
-                 class="flex justify-center  items-center w-10 transition-all duration-500  h-full cursor-pointer"
-             >
-                 <Icon v-if="$dashboard.sidebar.isRail && !open" class="text-2xl  transition-all duration-500 hover:text-hover-200" :name="link.icon"/>
+                :to="{ path: link.path }"
+                 class="flex justify-center  items-center w-10 transition-all decoration-none text-muted-light  dark:text-muted-dark hover:text-hover-800  dark:hover:text-hover-200 duration-500  h-full cursor-pointer"
+                 active-class="link-active"
+            >
+                 <Icon v-if="$dashboard.sidebar.isRail && !open" class="text-2xl  transition-all duration-500 " :name="link.icon"/>
      
                  <Icon
-                     v-else
+                    v-else
                      :class="open ? 'rotate-90 text-blue-600' : 'fa-rotate-0 text-muted-light dark:text-muted-dark hover:text-hover-200'"
                      class="text-2xl transition-all duration-200 ease-in"
                      name="material-symbols:play-arrow-outline"
                      @click="open = !open"
                  />
-             </span>
+            </NuxtLink>
+
         </div>
 
         <transition

@@ -1,6 +1,8 @@
 <script setup >
+const { $auth } = useNuxtApp()
+
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: ['auth']
 })
 
@@ -9,10 +11,15 @@ definePageMeta({
 // onMounted(() => {
 //     $dashboard.get()
 // })
+
+useSeoMeta({
+    title: "Dashboard | " + $auth.user.username,
+    description: "Odkryj urok Miasta Suwałki online – Twoje źródło lokalnych informacji i inspiracji!",
+    ogImage: "https://miastosuwalki.pl/images/Logo.png",
+})
 </script>
 
 <template>
-    
     <x-section-dashboard >
         <template #header-panel>
             

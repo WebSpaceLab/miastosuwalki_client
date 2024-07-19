@@ -5,7 +5,7 @@ const { $galleries, $auth } = useNuxtApp()
 const { data , isLoading, pagination, months, queryParams,  status } = storeToRefs($galleries)
 
 definePageMeta({
-    layout: "authorization",
+    layout: "default",
     middleware: [ 'auth']
     
 })

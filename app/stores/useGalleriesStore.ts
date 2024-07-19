@@ -137,6 +137,11 @@ export const useGalleriesStore = defineStore('galleries', {
                     this.show.createdAtAgo = data.value.data.gallery.createdAtAgo
                     this.show.photos = data.value.data.gallery.media
                     this.show.article = data.value.data.gallery.article
+
+                    useSeoMeta({
+                        title: () => data.value.data.gallery.title + ' - Galeria zdjęć',
+                        description: () => data.value.data.gallery.description,
+                    })
                 }
             } catch (error) {
                 console.error(error)

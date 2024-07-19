@@ -1,14 +1,13 @@
 <script setup>
-const {slug} = useRoute().params;
-const { $galleries } = useNuxtApp();
+    const {slug} = useRoute().params;
+    const { $galleries } = useNuxtApp();
 
-definePageMeta({
-    layout: "default",
-})
+    definePageMeta({
+        layout: "default",
+    })
 
-onMounted(async () => {
+
     await $galleries.getGallery(slug);
-});
 </script>
 
 <template>
